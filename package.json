@@ -9,7 +9,7 @@
     "icon": "/distro/Rebit/assets/brend/icon.png"
   },
   "endpoint": "http://opendata.pohuwatokab.go.id",
-  "gitrepo": "https://github.com/iyanrsaleh/Development.git",
-  "package": "https://github.com/iyanrsaleh/Development/tree/main/package",
-  "repodev": "D:/Extensions/Rebit"
+  "gitrepo": "https://github.com/iyanrsaleh/Rebit.git",
+  "package": "https://github.com/iyanrsaleh/Rebit/tree/main/package",
+  "repodev": "D:/distro/Rebit"
 }

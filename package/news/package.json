@@ -1,0 +1,12 @@
+{
+  "id": "news",
+  "title": "package news",
+  "description": "GUI Rebit",
+  "version": "1.0.0",
+  "author": "iyan",
+  "brend":{
+    "ico" : "/distro/Rebit/assets/brend/favicon.ico",
+    "icon": "/distro/Rebit/assets/brend/icon.png"
+  },
+  "endpoint": "http://opendata.pohuwatokab.go.id"
+}

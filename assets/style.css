@@ -1,0 +1,23 @@
+/* Fluent System Icons (Microsoft, style Regular — outline default Windows 11,
+   File Explorer/Settings/taskbar) — SATU-SATUNYA varian dipertahankan dari 4
+   yang tersedia (Filled/Light/Resizable dihapus, tidak dipakai). File font
+   sendiri ada di assets/fonts/, CSS ini cuma @import declarasi @font-face +
+   class .icon-ic_fluent_*:before bawaan generator, TIDAK ditulis ulang manual
+   di sini supaya tetap sinkron kalau font di-update lewat tool resmi. */
+@import url("./fonts/FluentSystemIcons-Regular.css");
+
+/* Font TEKS default distro ini — bergaya Windows 11 (Segoe UI Variable,
+   font sistem Windows 11 asli untuk teks UI, sudah terpasang di OS, BUKAN
+   file font terpisah). TERPISAH dari FluentSystemIcons-Regular di atas
+   (itu font ICON — glyph simbol, bukan huruf terbaca; kalau dipakai untuk
+   html/body, semua teks biasa akan tampil sebagai simbol aneh). Hanya di
+   sini (style.css distro Rebit), TIDAK menyentuh assets/css/style.css
+   (shell/kernel, dipakai SEMUA distro — font teks per-distro bukan urusan
+   kernel). */
+html, body {
+    font-family: "Segoe UI Variable Text", "Segoe UI", system-ui, sans-serif;
+}
+
+p{
+    font: 12px
+}

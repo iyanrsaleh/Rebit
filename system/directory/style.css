@@ -1,0 +1,263 @@
+/* Layout struktural tree direktori (system/directory/index.js) — BUKAN
+   definisi icon (itu global, lihat assets/modules/icons/file/index.css,
+   sudah ter-@import lewat nexa.css → assets/css/style.css). File ini
+   HANYA menata indentasi nesting/summary, dimuat otomatis lewat
+   templates/workspace.css saat instalasi distro (lihat README.md,
+   bagian "templates/workspace.css auto-import"). */
+
+/* Layout flexbox tree+viewer (package/directory/index.js) — GANTI dari
+   grid persentase tetap (row/col-2/col-10, assets/modules/grid/index.css)
+   karena lebar tree HARUS bisa ditarik user (window.NxResize, lihat
+   assets/modules/resize/NexaResize.js) — grid kolom % tidak punya cara
+   menyimpan/menerapkan lebar custom per elemen, flexbox dengan width
+   eksplisit di tree (di-atur NxResize) jauh lebih pas untuk ini.
+   nx-directory-layout__tree TIDAK diberi flex-basis dari CSS — lebar
+   awalnya 260px (fallback) atau hasil restore localStorage (di-set
+   NxResize() lewat JS, lihat package/directory/index.js). */
+.nx-directory-layout {
+  display: flex;
+  align-items: stretch;
+  min-height: 60vh;
+}
+
+.nx-directory-layout__tree {
+  width: 260px;
+  flex: 0 0 auto;
+  overflow: auto;
+  /* Nama file panjang TIDAK dipotong diam-diam — scroll horizontal muncul
+     kalau lebar tree (walau sudah ditarik user) masih kurang, daripada
+     teks terpotong tanpa indikasi apa pun. */
+  white-space: nowrap;
+}
+
+.nx-directory-layout__resize-handle {
+  flex: 0 0 auto;
+  width: 6px;
+  cursor: col-resize;
+  background: transparent;
+  position: relative;
+}
+
+.nx-directory-layout__resize-handle::before {
+  content: '';
+  position: absolute;
+  left: 2px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: rgba(128, 128, 128, 0.25);
+  transition: background-color 0.1s ease;
+}
+
+.nx-directory-layout__resize-handle:hover::before {
+  background: rgba(64, 128, 255, 0.6);
+}
+
+.nx-directory-layout__viewer {
+  flex: 1 1 0;
+  min-width: 0;
+  overflow: auto;
+}
+
+.nx-directory-tree__folder {
+  margin-left: 4px;
+}
+
+.nx-directory-tree__folder > summary {
+  cursor: pointer;
+  list-style: none;
+  padding: 2px 0;
+  user-select: none;
+}
+
+.nx-directory-tree__folder > summary::-webkit-details-marker {
+  display: none;
+}
+
+.nx-directory-tree__folder > summary::before {
+  content: '▸';
+  display: inline-block;
+  width: 1em;
+  margin-right: 2px;
+  transition: transform 0.1s ease;
+}
+
+.nx-directory-tree__folder[open] > summary::before {
+  transform: rotate(90deg);
+}
+
+.nx-directory-tree__children {
+  margin-left: 18px;
+  border-left: 1px dashed rgba(128, 128, 128, 0.3);
+  padding-left: 8px;
+}
+
+.nx-directory-tree__file {
+  padding: 2px 0;
+}
+
+.nx-directory-tree__truncated,
+.nx-directory-tree__empty {
+  opacity: 0.6;
+  font-size: 0.9em;
+}
+
+.nx-directory-tree__file {
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+.nx-directory-tree__file:hover {
+  background: rgba(128, 128, 128, 0.12);
+}
+
+.nx-directory-tree__file--active {
+  background: rgba(64, 128, 255, 0.18);
+}
+
+/* File sistem/pemakai fitur ini sendiri (system/, package/directory/) —
+   TIDAK bisa diklik-edit, lihat isProtectedPath() di index.js. */
+.nx-directory-tree__file--protected {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.nx-directory-tree__file--protected:hover {
+  background: none;
+}
+
+.nx-directory-tree__lock {
+  width: 12px;
+  height: 12px;
+  opacity: 0.7;
+}
+
+/* Viewer isi file (system/directory/editor.js) */
+.nx-file-viewer__header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 8px;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.25);
+  font-weight: 600;
+}
+
+.nx-file-viewer__meta {
+  margin-left: auto;
+  font-weight: normal;
+  opacity: 0.6;
+  font-size: 0.85em;
+}
+
+.nx-file-viewer__status {
+  font-weight: normal;
+  font-size: 0.85em;
+  padding: 1px 8px;
+  border-radius: 3px;
+}
+
+.nx-file-viewer__status--dirty {
+  color: #d0a030;
+}
+
+.nx-file-viewer__status--saving {
+  color: #808080;
+}
+
+.nx-file-viewer__status--saved {
+  color: #4caf50;
+}
+
+.nx-file-viewer__status--error {
+  color: #e05555;
+}
+
+.nx-file-viewer__editor {
+  min-height: 70vh;
+}
+
+.nx-file-viewer__editor .cm-editor {
+  height: 70vh;
+}
+
+.nx-file-viewer__body {
+  margin: 0;
+  padding: 8px;
+  overflow: auto;
+  max-height: 70vh;
+  font-family: ui-monospace, 'Cascadia Code', Consolas, monospace;
+  font-size: 0.85em;
+  white-space: pre;
+}
+
+.nx-file-viewer--error .nx-file-viewer__header {
+  color: #e05555;
+}
+
+.nx-file-viewer__error-message {
+  padding: 8px;
+  opacity: 0.85;
+}
+
+.nx-file-viewer__placeholder,
+.nx-file-viewer__loading {
+  padding: 12px;
+  opacity: 0.6;
+}
+
+/* Pratinjau gambar (editor.js, openImagePreview()) — read-only, tidak ada CodeMirror. */
+.nx-file-viewer__image-stage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  max-height: 80vh;
+  overflow: auto;
+  padding: 12px;
+  background:
+    linear-gradient(45deg, rgba(128, 128, 128, 0.08) 25%, transparent 25%) 0 0 / 20px 20px,
+    linear-gradient(-45deg, rgba(128, 128, 128, 0.08) 25%, transparent 25%) 0 0 / 20px 20px,
+    linear-gradient(45deg, transparent 75%, rgba(128, 128, 128, 0.08) 75%) 0 0 / 20px 20px,
+    linear-gradient(-45deg, transparent 75%, rgba(128, 128, 128, 0.08) 75%) 0 0 / 20px 20px;
+}
+
+.nx-file-viewer__image {
+  max-width: 100%;
+  max-height: 76vh;
+  object-fit: contain;
+}
+
+/* Toggle [Markdown | Preview] (editor.js, wireMarkdownPreviewToggle()). */
+.nx-file-viewer__md-tabs {
+  display: flex;
+  gap: 4px;
+  padding: 4px 8px;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.25);
+}
+
+.nx-file-viewer__md-tab {
+  padding: 3px 10px;
+  border: none;
+  border-radius: 3px;
+  background: transparent;
+  cursor: pointer;
+  font-size: 0.85em;
+  opacity: 0.7;
+}
+
+.nx-file-viewer__md-tab:hover {
+  opacity: 1;
+  background: rgba(128, 128, 128, 0.12);
+}
+
+.nx-file-viewer__md-tab.is-active {
+  opacity: 1;
+  background: rgba(64, 128, 255, 0.18);
+  font-weight: 600;
+}
+
+.nx-file-viewer__md-preview {
+  padding: 12px 16px;
+  overflow: auto;
+  max-height: 70vh;
+}

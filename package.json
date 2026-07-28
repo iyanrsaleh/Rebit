@@ -1,0 +1,15 @@
+{
+  "id": "Rebit",
+  "title": "Rebit",
+  "description": "Rebit",
+  "version": "1.0.0",
+  "author": "iyan",
+  "brend": {
+    "ico": "/distro/Rebit/assets/brend/favicon.ico",
+    "icon": "/distro/Rebit/assets/brend/icon.png"
+  },
+  "endpoint": "http://opendata.pohuwatokab.go.id",
+  "gitrepo": "https://github.com/iyanrsaleh/Development.git",
+  "package": "https://github.com/iyanrsaleh/Development/tree/main/package",
+  "repodev": "D:/Extensions/Rebit"
+}
